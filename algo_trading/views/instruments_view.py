@@ -36,6 +36,7 @@ def display_instrument(request, instrument: Instrument):
         'instruments/show.html',
         {
             'instrument': instrument,
+            'daily_data': instrument.daily_data.order_by("-date"),
         },
     )
 

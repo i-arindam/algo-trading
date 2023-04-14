@@ -5,3 +5,34 @@
   <p>Name: {{ instrument.descriptive_name }}</p>
   <p>First Open Date: {{ instrument.first_open_date }}</p>
 </p>
+
+
+
+{% if daily_data.count > 0 %}
+  <div class="ohlc-data-container">
+    <p class="ohlc-data-count">Total <strong>{{ daily_data.count }}</strong> OHLC values</p>
+    <table class="ohlc-data table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Open</th>
+          <th>High</th>
+          <th>Low</th>
+          <th>Close</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for ohlc_row in daily_data.all %}
+          <tr class="table-row ohlc-row">
+            <td>{{ ohlc_row.date_in_tables }}</td>
+            <td>{{ ohlc_row.open }}</td>
+            <td>{{ ohlc_row.high }}</td>
+            <td>{{ ohlc_row.low }}</td>
+            <td>{{ ohlc_row.close }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}

@@ -58,3 +58,18 @@ class OhlcDataDaily(models.Model):
         return str(self.date)
 
     # TODO: Define custom methods here
+
+    def date_in_tables(self) -> str:
+        """Return date in Month Day, Year format for display in tables
+
+        Parameters
+        ----------
+        self:
+            The object instance
+
+        Returns
+        -------
+        str
+            Date in April 01, 1990 format
+        """
+        return self.date.strftime("%B %d, %Y")
