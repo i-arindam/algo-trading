@@ -59,6 +59,7 @@ class OhlcDataDaily(models.Model):
 
     # TODO: Define custom methods here
 
+    @property
     def date_in_tables(self) -> str:
         """Return date in Month Day, Year format for display in tables
 

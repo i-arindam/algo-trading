@@ -43,33 +43,7 @@
   {% if symbols_import_summary.created|length > 0 %}
     <div>
       <p class="header">Successfully imported symbols</p>
-      <table class="imported-symbols">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Symbol</th>
-            <th>Name</th>
-            <th>First Open Date</th>
-            <th>Instrument Type</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for imported_instrument in symbols_import_summary.created %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>
-                <a href={% url "instrument-symbol" imported_instrument.symbol %}>
-                  {{ imported_instrument.symbol }}
-                </a>
-              </td>
-              <td>{{ imported_instrument.descriptive_name }}</td>
-              <td>{{ imported_instrument.first_open_date }}</td>
-              <td>{{ imported_instrument.instrument_type }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+      {% include "instruments/display_meta_in_table.html" with instruments=symbols_import_summary.created %}
+  </div>
   {% endif %}
 {% endif %}

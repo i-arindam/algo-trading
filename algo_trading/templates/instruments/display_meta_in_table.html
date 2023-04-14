@@ -1,0 +1,27 @@
+<table class="instruments-list">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Symbol</th>
+      <th>Name</th>
+      <th>First Open Date</th>
+      <th>Instrument Type</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for instrument in instruments %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>
+          <a href={% url "instrument-symbol" instrument.symbol %}>
+            {{ instrument.symbol }}
+          </a>
+        </td>
+        <td>{{ instrument.descriptive_name }}</td>
+        <td>{{ instrument.first_open_date }}</td>
+        <td>{{ instrument.instrument_type }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
