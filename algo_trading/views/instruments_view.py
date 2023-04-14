@@ -84,3 +84,16 @@ def add_instruments(request):
             'symbols_import_summary': symbols_import_summary
         }
     )
+
+
+@require_http_methods(["GET"])
+def list_instruments(request):
+    instruments = Instrument.objects.all()
+
+    return render(
+        request,
+        'instruments/list_instruments.html',
+        {
+            'instruments': instruments,
+        }
+    )

@@ -25,4 +25,5 @@ urlpatterns = [
     path('instruments/show/<int:pk>', views.instrument_by_pk, name='instrument'),
     path('instruments/show/<str:symbol>', views.instrument_by_symbol, name='instrument-symbol'),
     path('instruments/add', views.add_instruments, name='add-instrument'),
+    path('instruments', views.list_instruments, name='list-instruments'),
 ]
