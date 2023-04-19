@@ -6,6 +6,7 @@ import yfinance as yf
 import pandas as pd
 
 from ...exceptions.instruments.invalid_ticker_symbol_error import InvalidTickerSymbolError
+import algo_trading.models.instruments as Instrument
 
 
 class InstrumentManager(models.Manager):
@@ -14,7 +15,7 @@ class InstrumentManager(models.Manager):
     KEY_FOR_FIRST_OPEN_DATE_IN_INFO = 'firstTradeDateMilliseconds'
     KEY_FOR_INSTRUMENT_TYPE_IN_INFO = 'typeDisp'
 
-    def get_by_symbol(self, symbol: str):
+    def get_by_symbol(self, symbol: str) -> Instrument:
         """Get an instrument by its symbol, irrespective of case
 
         Both the queried and the DB column are matched case-insensitive to allow any of the variations:
@@ -40,7 +41,7 @@ class InstrumentManager(models.Manager):
         except self.model.DoesNotExist:
             raise Http404("No Instrument matches the given symbol.")
 
-    def import_symbols_from_yf(self, symbol_list: list) -> pd.DataFrame:
+    def import_symbols_from_yf(self, symbol_list: list) -> dict:
         """Import multiple symbols from yFinance.
 
         Given a list of symbols to import, this fetches all their instrument info, and then their
@@ -60,6 +61,16 @@ class InstrumentManager(models.Manager):
             A dict containing keys +created+ and +failed+
             +created+ key contains a list of Instrument objects that were created
             +failed+ key contains a list of dict with keys +symbol+ and +reason+ containing the error msg.
+        >>> import_symbols_from_yf(syms)
+        {
+            'created': [Instrument, Instrument],
+            'failed': [
+                {
+                    'symbol': str,
+                    'reason': str,
+                },
+            ],
+        }
         """
         import_summary = {}
         failed_symbols = []
@@ -84,7 +95,7 @@ class InstrumentManager(models.Manager):
 
         return import_summary
 
-    def import_symbol_from_yf(self, symbol: str):
+    def import_symbol_from_yf(self, symbol: str) -> Instrument:
         """Import one instrument from YF
 
         Creates an instrument from the symbol, failing which raises errors
@@ -105,7 +116,7 @@ class InstrumentManager(models.Manager):
 
         return ingested_instrument
 
-    def create_instrument_from_symbol(self, new_symbol: str):
+    def create_instrument_from_symbol(self, new_symbol: str) -> Instrument:
         """Process a new symbol to be recorded in the model `Instrument`
 
         Verify if the symbol is a valid one, if not raise an error
