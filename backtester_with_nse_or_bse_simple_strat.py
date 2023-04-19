@@ -7,27 +7,22 @@ Original file is located at
     https://colab.research.google.com/drive/1jxq4x05p-vWUlGxmmR_ctH2JYbh8NpYi
 """
 
-
-
-
-
-
+from __future__ import (absolute_import, division, print_function, unicode_literals)
 
 import yfinance as yf
 import backtrader as bt
-import datetime
+# import datetime
 
 # Commented out IPython magic to ensure Python compatibility.
 # %matplotlib inline
 
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
 
 rel = yf.download("RELIANCE.NS")
 
 rel.loc["2022":"2023"]
 
 data = bt.feeds.PandasData(dataname=rel.loc["2020":"2023"])
+
 
 class TestStrategy(bt.Strategy):
     params = (
@@ -51,7 +46,6 @@ class TestStrategy(bt.Strategy):
         # Add a MovingAverageSimple indicator
         self.sma = bt.indicators.SimpleMovingAverage(
             self.datas[0], period=self.params.maperiod)
-        
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
@@ -120,7 +114,8 @@ class TestStrategy(bt.Strategy):
                 self.order = self.sell()
 
     def stop(self):
-      print(self.stats);
+        print(self.stats)
+
 
 # Create a cerebro entity
 cerebro = bt.Cerebro()
@@ -140,7 +135,7 @@ cerebro.addanalyzer(bt.analyzers.TimeReturn, timeframe=bt.TimeFrame.Years,
 cerebro.addanalyzer(bt.analyzers.AnnualReturn)
 
 # gives a list of every position, prolly not very useful
-#cerebro.addanalyzer(bt.analyzers.PositionsValue)
+# cerebro.addanalyzer(bt.analyzers.PositionsValue)
 
 # cerebro.addanalyzer(bt.analyzers.LogReturnsRolling)
 
@@ -157,7 +152,7 @@ cerebro.addanalyzer(bt.analyzers.SQN)
 # cerebro.addanalyzer(bt.analyzers.Transactions)
 
 cerebro.addanalyzer(bt.analyzers.VWR)
-#cerebro.addanalyzer(bt.analyzers.SharpeRatio, _name='mysharpe')
+# cerebro.addanalyzer(bt.analyzers.SharpeRatio, _name='mysharpe')
 
 
 # Set the commission
@@ -175,16 +170,12 @@ print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
 
 cerebro.plot()
 
-
-
-strat
-
 for item in strat.stats:
     print(item)
 
 for analyzer in strat.analyzers:
     analysis = analyzer.get_analysis()
-    for k,v in analysis.items():
+    for k, v in analysis.items():
         print(f"Analyzer {analyzer} has result {k} with value {v}")
 
 strat.analyzers[8].get_analysis()
@@ -192,4 +183,3 @@ strat.analyzers[8].get_analysis()
 strat.stats[1].lines
 
 strat.analyzers[0].get_analysis()
-
