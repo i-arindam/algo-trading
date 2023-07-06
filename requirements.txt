@@ -21,7 +21,7 @@ colorama==0.4.3
 constantly==15.1.0
 cryptography==40.0.1
 distlib==0.3.6
-Django==4.1.9
+Django==4.1.10
 django-bootstrap5==23.1
 django-environ==0.10.0
 django-extensions==3.2.1
